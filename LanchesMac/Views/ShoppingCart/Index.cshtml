@@ -1,0 +1,74 @@
+﻿@model ShoppingCartViewModel
+
+<div class="container">
+    <div class="row">    
+        <div style="text-align: center;">
+            <img src="~/images/Full-Cart-icon.png" class="shoppingcart-image" />
+            <h2>Shopping Cart</h2>
+        </div>
+        @if(Model.ShoppingCart.BuyItemsCart.Count == 0)
+        {
+            <div class="empty-cart">
+                <h4>Your shopping cart is empty, try adding some snacks to it.</h4>
+                <a class="btn btn-primary" asp-controller="Snack" asp-action="List">Look up for snacks</a>
+            </div>
+        }
+        else
+        {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Snack</th>
+                    <th>Quantity</th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Subtotal</th>
+                    <th>Add one more</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.ShoppingCart.BuyItemsCart)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <a asp-controller="Snack" asp-action="Details" asp-route-snackId="@item.Snack.SnackId">@item.Snack.Name</a>
+                            </td>
+                        <td class="text-left">@item.Quantity</td>
+                        <td class="text-right">@item.Snack.Price.ToString("c")</td>
+                        <td class="text-right">
+                            @((item.Quantity * item.Snack.Price).ToString("c"))
+                        </td>
+                        <td class="text-center">
+                            <a asp-controller="ShoppingCart" asp-action="AddItemToCart"
+                        asp-route-snackId="@item.Snack.SnackId">
+                        <i class="fa-solid fa-plus fa-2x"></i>
+                        </a>
+                        </td>
+                        <td class="text-center">
+                        <a asp-controller="ShoppingCart" asp-action="RemoveItemFromCart"
+                        asp-route-snackId="@item.Snack.SnackId">
+                        <img class="remove-icon" src="~/images/remove.ico" />
+                        </a>
+                       </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right">Total</td>
+                    <td class="text-right">
+                        @Model.ShoppingCartTotal.ToString("C")
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="text-right">
+            <div class="btn-group">
+                <a class="btn btn-success" asp-controller="Order" asp-action="CheckOut">Finish order</a>
+                <a class="btn btn-primary" asp-controller="Snack" asp-action="List">Keep shopping</a>
+            </div>
+        </div>
+        }
+        <br />
+    </div>
+</div>

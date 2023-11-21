@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Upload Files";
+}
+<i class="fa-solid fa-cloud-arrow-up fa-4x"></i>
+<hr />
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        @if (ViewData["Error"] != null)
+        {
+            <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
+            <h4>@ViewData["Error"]</h4>
+        }
+    </div>
+    <div class="container">
+        @if (ViewData["Result"] != null)
+        {
+            <h4>@ViewData["Result"]</h4>
+            <hr />
+            @if (ViewBag.Files != null)
+            {
+                @foreach (string file in ViewBag.Files)
+                {
+                    <li>
+                        @file
+                    </li>
+                }
+            }
+        }
+    </div>
+</div>
+<div class="form-group">
+    <a class="btn btn-outline-info" asp-controller="AdminImages" asp-action="Index">Back to page</a>
+    <a class="btn btn-outline-info" asp-controller="AdminImages" asp-action="GetImages">Show images</a>
+</div>
